@@ -1,8 +1,11 @@
 import shelve
 
+current_user=None
+
 db=shelve.open('db.shlf')
 
 def login():
+    global current_user
     flag = 0
     while flag == 0:
         username = raw_input('Username: ')
@@ -21,7 +24,7 @@ def login():
             i = i + 1
 
 def signup():
-    #global total_no_of_users                                   #the variable for total number of users
+
     flag=0                                                       #flag sets when the account is succesfully created and stops the loop for re-entering a username
 
     while(flag==0):
@@ -37,7 +40,6 @@ def signup():
             continue
         password=raw_input('Create password: ')
         db[str(db.__len__())]={'username':username,'password':password}
-        #total_no_of_users = int(total_no_of_users) + 1
         print 'account created'
         flag=1
 
@@ -47,6 +49,7 @@ existing_user=raw_input("Are you a existing user ? (Y/N)")
 
 if existing_user.upper()=='Y':
     login()
+    print current_user
 
 else:
     signup()
