@@ -14,7 +14,7 @@ def login():
             if db[str(i)]['username'] == username:
                 password = raw_input('Password: ')
                 if db[str(i)]['password'] == password:
-                    print 'Yor are logged in ' + db[str(i)]['username']
+                    print 'Yor are logged in ' + db[str(i)]['username']+'\n'
                     flag = 1
                     current_user=i
                     break
@@ -62,18 +62,14 @@ def signup():
 
 def select_status():
     global current_user
-    i=str(current_user)
+
     choice=raw_input('Choose from previous status? (Y/N)')
 
     if choice.upper()=='N':
         status = raw_input('Status :')
         #current_user=str(current_user)
-        #db[str(current_user)]['status_messages'].append(status)
-        #db[str(current_user)]['current_status']=len(db[str(current_user)]['status_messages'])-1
-        #n=db[str(current_user)]['current_status']
-        #print len(db[str(current_user)]['status_messages'])
-        #print len(db[str(current_user)]['status_messages'])
-
+        db[str(current_user)]['status_messages'].append(status)
+        db[str(current_user)]['current_status']=len(db[str(current_user)]['status_messages'])-1
 
 def start_chat():
 
