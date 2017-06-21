@@ -1,10 +1,7 @@
 import shelve
-current_user                                 #variable which tells which user logged in
+current_user=0                                #variable which tells which user logged in
 print ("Hello, let's get started.")
-
 db=shelve.open('db.shlf')
-d={'username':'krishan','password':'bhadana'}
-db['0']=d
 existing_user=raw_input("Are you a existing user ? (Y/N)")
 
 def login():
@@ -34,12 +31,19 @@ def signup():
         if db[str(i)]['username'] == username:
             continue
         password=raw_input('Create password: ')
-        db[str(db.__len__())]={'username':username,'password':password}
+        #age=raw_input('Enter your age:  ')
+        #rating=raw_input('Enter your rating: ')
+        #status=raw_input('Status :')
+        #db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':status_messages[status],'current_status':0}
         print 'account created'
         flag=1
 
+#def start_chat():
+   # print 'here starts the new chat'
 
 if existing_user.upper()=='Y':
     login()
+    #start_chat()
 else:
     signup()
+    #start_chat()
