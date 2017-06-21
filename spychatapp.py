@@ -13,7 +13,7 @@ def login():
     while flag==0:
         i = 0                                                        # to search the shelve with index from 0 to number of users
         while i < db.__len__():
-            if [str(i)]['username']== username:
+            if db[str(i)]['username']== username:
                 password = raw_input('Password: ')
                 if db[str(i)]['password']==password:
 
