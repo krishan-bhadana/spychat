@@ -25,6 +25,15 @@ def login():
 
 def signup():
 
+    age = raw_input('Enter your age:  ')
+    age=int(age)
+    if age<18:
+        print 'Your age is not appropriate for being a spy'
+        return
+    elif age>50:
+        print 'Your age is not appropriate for being a spy'
+        return
+
     flag=0                                                       #flag sets when the account is succesfully created and stops the loop for re-entering a username
 
     while(flag==0):
@@ -39,7 +48,9 @@ def signup():
         if temp == username:
             continue
         password=raw_input('Create password: ')
-        db[str(db.__len__())]={'username':username,'password':password}
+        rating=raw_input('Enter your rating: ')
+        status=raw_input('Status :')
+        db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':[status],'current_status':0}
         print 'account created'
         flag=1
 
@@ -48,6 +59,8 @@ print ("Hello, let's get started.")
 existing_user=raw_input("Are you a existing user ? (Y/N)")
 
 if existing_user.upper()=='Y':
+    n=db.__len__()-1                                        #because index is 1 less than length
+    print db[str(n)]['status_messages'][0]
     login()
     print current_user
 
