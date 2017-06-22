@@ -1,14 +1,18 @@
 import shelve
 
+from steganography.steganography import Steganography
+
+from datetime import datetime
+
 current_user=None
 
-db=shelve.open('db.shlf')
+db=shelve.open('database.shlf')
 
 def login():
     global current_user
     flag = 0
     while flag == 0:
-        username = raw_input('Username: ')
+        username = raw_input('\nUsername: ')
         i = 0  # to search the shelve with index from 0 to number of users
         while i < db.__len__():
             if db[str(i)]['username'] == username:
@@ -55,7 +59,7 @@ def signup():
         password=raw_input('Create password: ')
         rating=raw_input('Enter your rating: ')
         status=raw_input('Status :')
-        db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':[status],'current_status':0}
+        db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':[status],'current_status':0,'chats':[0],'from':[0],'to':[0]}
         print 'account created'
         current_user=db.__len__()-1
         flag=1
@@ -79,13 +83,34 @@ def select_status():
         input=raw_input('Select from above status')
         db[str(current_user)]['current_status']=int(input)-1
 
+def select_friend():
+
+    i=0
+    while i<db.__len__():
+        n=i+1
+        print '\n'+str(n)+' '+db[str(i)]['username']
+        i=i+1
+    send_to = raw_input('Select the user you want to send message from above: ')
+    return send_to
+
+def send_message():
+
+    send_to=select_friend()
+    original_image = 'bolt.jpg'
+    output_path = "output.jpg"
+    text = raw_input("What do you want to say? ")
+    #db[str(current_user)]['chats'].append(text)
+    db[str(current_user)]['from'].append(current_user)
+    db[str(current_user)]['to'].append(send_to)
+    Steganography.encode(original_image, output_path, text)
+
 def start_chat():
 
     showmenu=True
 
     while showmenu==True:
 
-        menu_choices = "\n\nWhat do you want to do? \n 1. Set status update  \n 2. Send a secret message \n 3. Read a secret message \n 4. Read Chats from a user \n 5. Close Application \n"
+        menu_choices = "\nWhat do you want to do? \n 1. Set status update  \n 2. Send a secret message \n 3. Read a secret message \n 4. Read Chats from a user \n 5. Logout \n"
         menu_choice = raw_input(menu_choices)
 
         if len(menu_choice) > 0:
@@ -101,15 +126,24 @@ def start_chat():
                 read_chat_history()
             else:
                 showmenu = False
+                alist[:] = []
+                db[str(current_user)]['chats'][:]=[]
+                db[str(current_user)]['from'][:]=[]
+                db[str(current_user)]['to'][:]=[]
 
 print ("Hello, let's get started.")
+#db.clear()   #to clear the shelve file(not included in program)
+#del db
+existing_user=raw_input("1. Login\n2. Signup\n3. Stop application")
 
-existing_user=raw_input("Are you a existing user ? (Y/N)")
+while 1<2:
+    if existing_user=='1':
+        login()
+        start_chat()
 
-if existing_user.upper()=='Y':
-    login()
-    start_chat()
+    elif existing_user=='2':
+        signup()
+        start_chat()
 
-else:
-    signup()
-    start_chat()
+    else:
+        break
