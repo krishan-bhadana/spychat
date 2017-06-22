@@ -96,10 +96,11 @@ def select_friend():
     send_to = raw_input('Select the user you want to send message from above: ')
     return send_to
 
-#def read_message():
- #   i=0
-  #  while i<db.__len__():
-   #     if db[]
+def read_message():
+    i=0
+    while i<messages.__len__():
+        if messages[str(i)]['to']==str(current_user):
+            print 'Message from '+db[messages[str(i)]['from']]['username']+' :'+messages[str(i)]['text']
 
 def send_message():
 
