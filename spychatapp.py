@@ -103,8 +103,6 @@ def read_message():
 def send_message():
 
     send_to=select_friend()
-    original_image = 'bolt.jpg'
-    output_path = "output.jpg"
     text = raw_input("What do you want to say? ")
     messages[str(current_user)]['chats'].append(text)
     messages[str(current_user)]['from'].append(current_user)
@@ -134,9 +132,6 @@ def start_chat():
             else:
                 showmenu = False
                 #alist[:] = []
-                messages[str(current_user)]['chats'][:]=[]
-                messages[str(current_user)]['from'][:]=[]
-                messages[str(current_user)]['to'][:]=[]
 
 print ("Hello, let's get started.")
 print messages.__len__()
@@ -156,4 +151,7 @@ while 1<2:
         start_chat()
 
     else:
+        messages[str(current_user)]['chats'][:] = []
+        messages[str(current_user)]['from'][:] = []
+        messages[str(current_user)]['to'][:] = []
         break
