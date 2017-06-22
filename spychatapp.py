@@ -2,10 +2,11 @@ import shelve
 
 from datetime import datetime
 
+messages={'chats':[None],'from':[None],'to':[None]}
+
 current_user=None
 
 db=shelve.open('database.shlf')
-messages=shelve.open('messages.shlf')
 
 def login():
     global current_user
@@ -60,10 +61,17 @@ def signup():
         rating=raw_input('Enter your rating: ')
         status=raw_input('Status :')
         db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':[status],'current_status':0}
-        messages[str(messages.__len__())]={'chats':[0],'from':[0],'to':[0]}
         print 'account created'
-        current_user=db.__len__()-1
+        current_user=int(db.__len__())-1
         flag=1
+
+def disp_users():
+    i=0
+    while i<db.__len__():
+        n=i+1
+        print '\n\t\t'+str(n)+' '+db[str(i)]['username']+'\n'
+        i=i+1
+    print '\n'
 
 def select_status():
     global current_user
@@ -92,21 +100,22 @@ def select_friend():
         print str(n)+' '+db[str(i)]['username']
         i=i+1
     send_to = raw_input('Select the user you want to send message from above: ')
-    return send_to
+    return int(send_to)-1
 
 def read_message():
+    global messages
     i=0
-    while i<int(messages.__len__()):
-        if messages[str(i)]['to']==str(current_user):
-            print 'Message from '+db[messages[str(i)]['from']]['username']+' :'+messages[str(i)]['text']
+    while i<int(len(messages)):
+        if str(messages['to'])==str(current_user):
+            print 'Message from '+db[str(messages['from'][len(messages)])]['username']+' :'+messages['text'][len(messages)]
         i=i+1
 def send_message():
-
+    global messages
     send_to=select_friend()
     text = raw_input("What do you want to say? ")
-    messages[str(current_user)]['chats'].append(text)
-    messages[str(current_user)]['from'].append(current_user)
-    messages[str(current_user)]['to'].append(send_to)
+    messages['chats'].append(text)
+    messages['from'].append(current_user)
+    messages['to'].append(send_to)
     print 'Message sent'
 
 def start_chat():
@@ -134,12 +143,11 @@ def start_chat():
                 #alist[:] = []
 
 print ("Hello, let's get started.")
-print messages.__len__()
 #db.clear()   #to clear the shelve file(not included in program)
 #del db
 
 while 1<2:
-    existing_user = raw_input("1. Login\n2. Signup\n3. Stop application")
+    existing_user = raw_input("1. Login\n2. Signup\n3. Display all users\n4. Stop application")
     if existing_user=='1':
         back=login()
         if back==True:
@@ -150,8 +158,12 @@ while 1<2:
         signup()
         start_chat()
 
+    elif existing_user=='3':
+        disp_users()
+
     else:
-        messages[str(current_user)]['chats'][:] = []
-        messages[str(current_user)]['from'][:] = []
-        messages[str(current_user)]['to'][:] = []
+        messages['chats'][:] = []
+        messages['from'][:] = []
+        messages['to'][:] = []
+        db.close()
         break
