@@ -89,14 +89,14 @@ def select_friend():
     i=0
     while i<db.__len__():
         n=i+1
-        print '\n'+str(n)+' '+db[str(i)]['username']
+        print str(n)+' '+db[str(i)]['username']
         i=i+1
     send_to = raw_input('Select the user you want to send message from above: ')
     return send_to
 
 def read_message():
     i=0
-    while i<messages.__len__():
+    while i<int(messages.__len__()):
         if messages[str(i)]['to']==str(current_user):
             print 'Message from '+db[messages[str(i)]['from']]['username']+' :'+messages[str(i)]['text']
         i=i+1
@@ -139,6 +139,7 @@ def start_chat():
                 messages[str(current_user)]['to'][:]=[]
 
 print ("Hello, let's get started.")
+print messages.__len__()
 #db.clear()   #to clear the shelve file(not included in program)
 #del db
 
