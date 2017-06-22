@@ -28,6 +28,7 @@ def login():
             i = i + 1
         if flag==0:
             print 'Try again'
+            return True
 
 def signup():
 
@@ -134,11 +135,13 @@ def start_chat():
 print ("Hello, let's get started.")
 #db.clear()   #to clear the shelve file(not included in program)
 #del db
-existing_user=raw_input("1. Login\n2. Signup\n3. Stop application")
 
 while 1<2:
+    existing_user = raw_input("1. Login\n2. Signup\n3. Stop application")
     if existing_user=='1':
-        login()
+        back=login()
+        if back==True:
+            continue
         start_chat()
 
     elif existing_user=='2':
