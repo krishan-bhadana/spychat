@@ -1,7 +1,5 @@
 import shelve
 
-from steganography.steganography import Steganography
-
 from datetime import datetime
 
 current_user=None
@@ -101,17 +99,16 @@ def read_message():
     while i<messages.__len__():
         if messages[str(i)]['to']==str(current_user):
             print 'Message from '+db[messages[str(i)]['from']]['username']+' :'+messages[str(i)]['text']
-
+        i=i+1
 def send_message():
 
     send_to=select_friend()
     original_image = 'bolt.jpg'
     output_path = "output.jpg"
     text = raw_input("What do you want to say? ")
-    #db[str(current_user)]['chats'].append(text)
+    messages[str(current_user)]['chats'].append(text)
     messages[str(current_user)]['from'].append(current_user)
     messages[str(current_user)]['to'].append(send_to)
-    Steganography.encode(original_image, output_path, text)
     print 'Message sent'
 
 def start_chat():
