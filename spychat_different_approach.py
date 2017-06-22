@@ -2,9 +2,10 @@ import shelve
 
 from datetime import datetime
 
-messages={'chats':[None],'from':[None],'to':[None]}
+messages={'chats':[None]*100,'from':[None]*100,'to':[None]*100}
 
 current_user=None
+total_chat=0
 
 db=shelve.open('database.shlf')
 
@@ -103,19 +104,23 @@ def select_friend():
     return int(send_to)-1
 
 def read_message():
+    global total_chat
     global messages
     i=0
-    while i<int(len(messages)):
-        if str(messages['to'])==str(current_user):
-            print 'Message from '+db[str(messages['from'][len(messages)])]['username']+' :'+messages['text'][len(messages)]
+    while i<int(total_chat):
+        if str(messages['to'][i])==str(current_user):
+            print 'Message from '+db[str(messages['from'][i])]['username']+' :'+messages['text'][i]
         i=i+1
+
 def send_message():
     global messages
+    global total_chat
     send_to=select_friend()
     text = raw_input("What do you want to say? ")
-    messages['chats'].append(text)
-    messages['from'].append(current_user)
-    messages['to'].append(send_to)
+    messages['chats'][total_chat]=text
+    messages['from'][total_chat]=current_user
+    messages['to'][total_chat]=send_to
+    total_chat=total_chat+1
     print 'Message sent'
 
 def start_chat():
