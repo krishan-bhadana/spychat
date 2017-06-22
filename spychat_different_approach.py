@@ -166,7 +166,7 @@ while 1<2:
     elif existing_user=='3':
         disp_users()
 
-    else:
+    elif existing_user=='4':
         messages['chats'][:] = []
         messages['from'][:] = []
         messages['to'][:] = []
