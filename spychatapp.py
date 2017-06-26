@@ -10,10 +10,6 @@ db=shelve.open('database.shlf')
 current_user=None
 
 print ("Hello, let's get started.")   #the program control starts here
-i=0
-while i<ms.__len__():
-    print ms[str(i)]['message']+'\n here'
-
 while 1<2:
 
     existing_user = raw_input("1. Login\n2. Signup\n3. Display all users\n4. Stop application")
