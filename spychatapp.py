@@ -1,45 +1,15 @@
 import shelve
 from signup import signupclass
-
+from login import loginclass
+from disp_users import disp_users_class
+from send_message import send_message_class
+from read_message import read_message_class
 from datetime import datetime
 
-messages={'chats':[None]*100,'from':[None]*100,'to':[None]*100}
-
-current_user=None
-total_chat=0
-
+ms=shelve.open('messages.shlf')
 db=shelve.open('database.shlf')
 
-def login():
-    global current_user
-    flag = 0
-    while flag == 0:
-        username = raw_input('\nUsername: ')
-        i = 0  # to search the shelve with index from 0 to number of users
-        while i < db.__len__():
-            if db[str(i)]['username'] == username:
-                password = raw_input('Password: ')
-                if db[str(i)]['password'] == password:
-                    print 'Yor are logged in ' + db[str(i)]['username']+'\n'
-                    flag = 1
-                    current_user=i
-                    break
-                else:
-                    print 'Try again'
-                    continue
-            i = i + 1
-        if flag==0:
-            print 'Try again'
-            return True
-
-
-def disp_users():
-    i=0
-    while i<db.__len__():
-        n=i+1
-        print '\n\t\t'+str(n)+' '+db[str(i)]['username']+'\n'
-        i=i+1
-    print '\n'
+current_user=None
 
 def select_status():
     global current_user
@@ -60,36 +30,6 @@ def select_status():
         input=raw_input('Select from above status')
         db[str(current_user)]['current_status']=int(input)-1
 
-def select_friend():
-
-    i=0
-    while i<db.__len__():
-        n=i+1
-        print str(n)+' '+db[str(i)]['username']
-        i=i+1
-    send_to = raw_input('Select the user you want to send message from above: ')
-    return int(send_to)-1
-
-def read_message():
-    global total_chat
-    global messages
-    i=0
-    while i<int(total_chat):
-        if str(messages['to'][i])==str(current_user):
-            print 'Message from '+db[str(messages['from'][i])]['username']+' :'+messages['text'][i]
-        i=i+1
-
-def send_message():
-    global messages
-    global total_chat
-    send_to=select_friend()
-    text = raw_input("What do you want to say? ")
-    messages['chats'][total_chat]=text
-    messages['from'][total_chat]=current_user
-    messages['to'][total_chat]=send_to
-    total_chat=total_chat+1
-    print 'Message sent'
-
 def start_chat():
 
     showmenu=True
@@ -105,26 +45,35 @@ def start_chat():
             if menu_choice == 1:
                 select_status()
             elif menu_choice == 2:
-                send_message()
+                x=send_message_class()
+                x.send_message(current_user)
             elif menu_choice == 3:
-                read_message()
+                x=read_message_class()
+                x.read_message(current_user)
             elif menu_choice == 4:
                 read_chat_history()
             else:
                 showmenu = False
                 #alist[:] = []
 
-print ("Hello, let's get started.")
+print ("Hello, let's get started.")   #the program control starts here
 #db.clear()   #to clear the shelve file(not included in program)
-#del db
+#del
+i=0
+while i<ms.__len__():
+    print ms[str(i)]['message']+'\n here'
 
 while 1<2:
+
     existing_user = raw_input("1. Login\n2. Signup\n3. Display all users\n4. Stop application")
     if existing_user=='1':
-        back=login()
-        if back==True:
+        x=loginclass()
+        back=x.login(current_user)
+        if back==None:
             continue
-        start_chat()
+        else:
+            current_user=back
+            start_chat()
 
     elif existing_user=='2':
         x=signupclass()
@@ -132,7 +81,8 @@ while 1<2:
         start_chat()
 
     elif existing_user=='3':
-        disp_users()
+        x=disp_users_class()
+        x.disp_users()
 
     elif existing_user=='4':
         #messages['chats'][:] = []
