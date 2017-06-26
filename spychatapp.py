@@ -1,4 +1,5 @@
 import shelve
+from signup import signupclass
 
 from datetime import datetime
 
@@ -31,40 +32,6 @@ def login():
             print 'Try again'
             return True
 
-def signup():
-
-    global current_user
-
-    age = raw_input('Enter your age:  ')
-    age=int(age)
-    if age<18:
-        print 'Your age is not appropriate for being a spy'
-        return
-    elif age>50:
-        print 'Your age is not appropriate for being a spy'
-        return
-
-    flag=0                                                       #flag sets when the account is succesfully created and stops the loop for re-entering a username
-
-    while(flag==0):
-        temp=None
-        username=raw_input('Select a username: ')
-        i = 0                                                       #to search the shelve with index from 0 to number of users
-        while i<db.__len__():
-            temp=db[str(i)]['username']
-            if temp==username:
-                print 'Username already exists, please try again'
-                break
-            i=int(i)+1
-        if temp == username:
-            continue
-        password=raw_input('Create password: ')
-        rating=raw_input('Enter your rating: ')
-        status=raw_input('Status :')
-        db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':[status],'current_status':0}
-        print 'account created'
-        current_user=int(db.__len__())-1
-        flag=1
 
 def disp_users():
     i=0
@@ -160,15 +127,16 @@ while 1<2:
         start_chat()
 
     elif existing_user=='2':
-        signup()
+        x=signupclass()
+        current_user=x.signup(current_user)
         start_chat()
 
     elif existing_user=='3':
         disp_users()
 
     elif existing_user=='4':
-        messages['chats'][:] = []
-        messages['from'][:] = []
-        messages['to'][:] = []
+        #messages['chats'][:] = []
+        #messages['from'][:] = []
+        #messages['to'][:] = []
         db.close()
         break
