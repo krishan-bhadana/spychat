@@ -83,7 +83,7 @@ def read_message():
     i=0
     while i<ms.__len__():
         if str(ms[str(i)]['to'])==str(current_user):
-            print 'Message from '+db[str(ms[str(i)]['from'])]['username']+' :'+ms[str(i)]['message']
+            print 'Message from ('+db[str(ms[str(i)]['from'])]['username']+'): '+ms[str(i)]['message']
         i=i+1
 
 def send_message(current_user):
