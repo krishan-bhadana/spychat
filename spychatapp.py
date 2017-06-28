@@ -15,7 +15,7 @@ def login():
             if db[str(i)]['username'] == username:
                 password = raw_input('Password: ')
                 if db[str(i)]['password'] == password:
-                    print 'Yor are logged in as' + db[str(i)]['username']+'\n'
+                    print 'Yor are logged in as ' + db[str(i)]['username']+'\n'
                     flag = 1
                     current_user=int(i)
                     return current_user
@@ -88,9 +88,13 @@ def read_message():
 
 def send_message(current_user):
     send_to=select_friend()
-    text = raw_input("What do you want to say? ")
+    text = raw_input("Message: ")
     ms[str(ms.__len__())]={'message':text,'from':current_user,'to':send_to}
-    print 'Message sent'
+    choice=raw_input('Message sent, Send again? (Y/N)')
+    while choice.upper()=='Y':
+        text = raw_input("Message: ")
+        ms[str(ms.__len__())] = {'message': text, 'from': current_user, 'to': send_to}
+        choice = raw_input('Message sent, Send again? (Y/N)')
 
 def start_chat(current_user):
 
@@ -130,4 +134,6 @@ while 1<2:
 
     elif existing_user=='4':
         db.close()
+        #ms.clear()
+        ms.close()
         break
