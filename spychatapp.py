@@ -2,9 +2,8 @@ import shelve
 
 from datetime import datetime
 
-chat=[{'message':None,'from':None,'to':None}]
-
 db=shelve.open('database.shlf')
+ms=shelve.open('chat.shlf')
 
 def login():
 
@@ -82,18 +81,15 @@ def select_friend():
 
 def read_message():
     i=0
-    while i<int(total_chat):
-        if str(messages['to'][i])==str(current_user):
-            print 'Message from '+db[str(messages['from'][i])]['username']+' :'+messages['text'][i]
+    while i<ms.__len__():
+        if str(ms[str(i)]['to'])==str(current_user):
+            print 'Message from '+db[str(ms[str(i)]['from'])]['username']+' :'+ms[str(i)]['message']
         i=i+1
 
-def send_message():
+def send_message(current_user):
     send_to=select_friend()
     text = raw_input("What do you want to say? ")
-    messages['chats'][total_chat]=text
-    messages['from'][total_chat]=current_user
-    messages['to'][total_chat]=send_to
-    total_chat=total_chat+1
+    ms[str(ms.__len__())]={'message':text,'from':current_user,'to':send_to}
     print 'Message sent'
 
 def start_chat(current_user):
@@ -106,7 +102,7 @@ def start_chat(current_user):
         menu_choice = raw_input(menu_choices)
         menu_choice = int(menu_choice)
         if menu_choice == 1:
-            send_message()
+            send_message(current_user)
         elif menu_choice == 2:
             read_message()
         else:
