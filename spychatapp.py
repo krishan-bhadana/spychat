@@ -62,7 +62,7 @@ def signup():
         rating=raw_input('Enter your rating: ')
         status=raw_input('Status :')
         db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':status}
-        print 'account created'
+        print '\naccount created'
         flag=1
         db.close()
 
