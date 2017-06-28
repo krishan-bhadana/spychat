@@ -2,15 +2,12 @@ import shelve
 
 from datetime import datetime
 
-messages={'chats':[None]*100,'from':[None]*100,'to':[None]*100}
-
-current_user=None
-total_chat=0
+chat=[{'message':None,'from':None,'to':None}]
 
 db=shelve.open('database.shlf')
 
 def login():
-    global current_user
+
     flag = 0
     while flag == 0:
         username = raw_input('\nUsername: ')
@@ -19,9 +16,10 @@ def login():
             if db[str(i)]['username'] == username:
                 password = raw_input('Password: ')
                 if db[str(i)]['password'] == password:
-                    print 'Yor are logged in ' + db[str(i)]['username']+'\n'
+                    print 'Yor are logged in as' + db[str(i)]['username']+'\n'
                     flag = 1
-                    current_user=i
+                    current_user=int(i)
+                    return current_user
                     break
                 else:
                     print 'Try again'
@@ -29,11 +27,9 @@ def login():
             i = i + 1
         if flag==0:
             print 'Try again'
-            return True
+            return 99
 
 def signup():
-
-    global current_user
 
     age = raw_input('Enter your age:  ')
     age=int(age)
@@ -62,7 +58,7 @@ def signup():
         rating=raw_input('Enter your rating: ')
         status=raw_input('Status :')
         db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':status}
-        print '\naccount created'
+        print '\naccount created\n'
         flag=1
         db.close()
 
@@ -73,16 +69,6 @@ def disp_users():
         print '\n\t\t('+str(n)+') Usrname: '+db[str(i)]['username']+'\n\t\t    Age: '+str(db[str(i)]['age'])+'\n\t\t    Rating: '+str(db[str(i)]['rating'])+'\n\t\t    Status: '+db[str(i)]['status_messages']
         i=i+1
     print '\n'
-
-def select_status():
-    global current_user
-
-    choice=raw_input('\n\t\t\tCurrent status: "'+db[str(current_user)]['status_messages']+'"'+'\n\t\t\tChange status? (Y/N)')
-
-    if choice.upper()=='Y':
-        status = raw_input('Enter new Status :')
-        db[str(current_user)]['status_messages']=status
-        db.close()
 
 def select_friend():
 
@@ -95,8 +81,6 @@ def select_friend():
     return int(send_to)-1
 
 def read_message():
-    global total_chat
-    global messages
     i=0
     while i<int(total_chat):
         if str(messages['to'][i])==str(current_user):
@@ -104,8 +88,6 @@ def read_message():
         i=i+1
 
 def send_message():
-    global messages
-    global total_chat
     send_to=select_friend()
     text = raw_input("What do you want to say? ")
     messages['chats'][total_chat]=text
@@ -114,30 +96,21 @@ def send_message():
     total_chat=total_chat+1
     print 'Message sent'
 
-def start_chat():
+def start_chat(current_user):
 
     showmenu=True
 
     while showmenu==True:
 
-        menu_choices = "\nWhat do you want to do? \n 1. Set status  \n 2. Send a secret message \n 3. Read a secret message \n 4. Read Chats from a user \n 5. Logout \n"
+        menu_choices = "\nWhat do you want to do?  \n 1. Send a secret message \n 2. Inbox  \n 3. Logout \n"
         menu_choice = raw_input(menu_choices)
-
-        if len(menu_choice) > 0:
-            menu_choice = int(menu_choice)
-
-            if menu_choice == 1:
-                select_status()
-                db = shelve.open('database.shlf')
-            elif menu_choice == 2:
-                send_message()
-            elif menu_choice == 3:
-                read_message()
-            elif menu_choice == 4:
-                read_chat_history()
-            else:
-                showmenu = False
-                #alist[:] = []
+        menu_choice = int(menu_choice)
+        if menu_choice == 1:
+            send_message()
+        elif menu_choice == 2:
+            read_message()
+        else:
+            showmenu = False
 
 print ("Hello, let's get started.")
 #db.clear()   #to clear the shelve file(not included in program)
@@ -147,22 +120,18 @@ print ("Hello, let's get started.")
 while 1<2:
     existing_user = raw_input("1. Login\n2. Signup\n3. Display all users\n4. Stop application")
     if existing_user=='1':
-        back=login()
-        if back==True:
+        current_user=login()
+        if current_user==99:
             continue
-        start_chat()
+        start_chat(current_user)
 
     elif existing_user=='2':
         signup()
         db = shelve.open('database.shlf')
-        start_chat()
 
     elif existing_user=='3':
         disp_users()
 
     elif existing_user=='4':
-        messages['chats'][:] = []
-        messages['from'][:] = []
-        messages['to'][:] = []
         db.close()
         break
