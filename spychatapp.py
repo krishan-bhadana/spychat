@@ -1,5 +1,5 @@
 import shelve
-
+from display_users import disp_user_class
 from datetime import datetime
 
 messages={'chats':[None]*100,'from':[None]*100,'to':[None]*100}
@@ -60,16 +60,8 @@ def signup():
         rating=raw_input('Enter your rating: ')
         status=raw_input('Status :')
         db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':[status],'current_status':0}
-        print 'account created'
+        print '\naccount created\n'
         flag=1
-
-def disp_users():
-    i=0
-    while i<db.__len__():
-        n=i+1
-        print '\n\t\t'+str(n)+' '+db[str(i)]['username']+'\n'
-        i=i+1
-    print '\n'
 
 def select_status():
     global current_user
@@ -160,7 +152,8 @@ while 1<2:
         signup()
 
     elif existing_user=='3':
-        disp_users()
+        x=disp_user_class()
+        x.disp_users()
 
     elif existing_user=='4':
         messages['chats'][:] = []
