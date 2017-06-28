@@ -19,7 +19,7 @@ def login():
             if db[str(i)]['username'] == username:
                 password = raw_input('Password: ')
                 if db[str(i)]['password'] == password:
-                    print 'Yor are logged in ' + db[str(i)]['username']+'\n'
+                    print 'Yor are logged in as ' + db[str(i)]['username']+'\n'
                     flag = 1
                     current_user=i
                     break
@@ -32,8 +32,6 @@ def login():
             return True
 
 def signup():
-
-    global current_user
 
     age = raw_input('Enter your age:  ')
     age=int(age)
@@ -63,7 +61,6 @@ def signup():
         status=raw_input('Status :')
         db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':[status],'current_status':0}
         print 'account created'
-        current_user=int(db.__len__())-1
         flag=1
 
 def disp_users():
@@ -161,7 +158,6 @@ while 1<2:
 
     elif existing_user=='2':
         signup()
-        start_chat()
 
     elif existing_user=='3':
         disp_users()
