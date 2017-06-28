@@ -77,21 +77,12 @@ def disp_users():
 def select_status():
     global current_user
 
-    choice=raw_input('Choose from previous status? (Y/N)')
+    choice=raw_input('\n\t\t\tCurrent status: "'+db[str(current_user)]['status_messages']+'"'+'\n\t\t\tChange status? (Y/N)')
 
-    if choice.upper()=='N':
-        status = raw_input('Status :')
-        db[str(current_user)]['status_messages'].append(status)
-        db[str(current_user)]['current_status']=len(db[str(current_user)]['status_messages'])-1
-
-    if choice.upper() == 'Y':
-        i=0
-        while i<len(db[str(current_user)]['status_messages']):
-            n=i+1
-            print(str(n)+' '+db[str(current_user)]['status_messages'][i])
-            i=i+1
-        input=raw_input('Select from above status')
-        db[str(current_user)]['current_status']=int(input)-1
+    if choice.upper()=='Y':
+        status = raw_input('Enter new Status :')
+        db[str(current_user)]['status_messages']=status
+        db.close()
 
 def select_friend():
 
@@ -129,7 +120,7 @@ def start_chat():
 
     while showmenu==True:
 
-        menu_choices = "\nWhat do you want to do? \n 1. Set status update  \n 2. Send a secret message \n 3. Read a secret message \n 4. Read Chats from a user \n 5. Logout \n"
+        menu_choices = "\nWhat do you want to do? \n 1. Set status  \n 2. Send a secret message \n 3. Read a secret message \n 4. Read Chats from a user \n 5. Logout \n"
         menu_choice = raw_input(menu_choices)
 
         if len(menu_choice) > 0:
@@ -137,6 +128,7 @@ def start_chat():
 
             if menu_choice == 1:
                 select_status()
+                db = shelve.open('database.shlf')
             elif menu_choice == 2:
                 send_message()
             elif menu_choice == 3:
