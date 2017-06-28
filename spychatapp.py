@@ -1,5 +1,5 @@
 import shelve
-from display_users import disp_user_class
+
 from datetime import datetime
 
 messages={'chats':[None]*100,'from':[None]*100,'to':[None]*100}
@@ -19,7 +19,7 @@ def login():
             if db[str(i)]['username'] == username:
                 password = raw_input('Password: ')
                 if db[str(i)]['password'] == password:
-                    print 'Yor are logged in as ' + db[str(i)]['username']+'\n'
+                    print 'Yor are logged in ' + db[str(i)]['username']+'\n'
                     flag = 1
                     current_user=i
                     break
@@ -32,6 +32,8 @@ def login():
             return True
 
 def signup():
+
+    global current_user
 
     age = raw_input('Enter your age:  ')
     age=int(age)
@@ -59,9 +61,18 @@ def signup():
         password=raw_input('Create password: ')
         rating=raw_input('Enter your rating: ')
         status=raw_input('Status :')
-        db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':[status],'current_status':0}
-        print '\naccount created\n'
+        db[str(db.__len__())]={'username':username,'password':password,'age':age,'rating':rating,'status_messages':status}
+        print 'account created'
         flag=1
+        db.close()
+
+def disp_users():
+    i=0
+    while i<db.__len__():
+        n=i+1
+        print '\n\t\t('+str(n)+') Usrname: '+db[str(i)]['username']+'\n\t\t    Age: '+str(db[str(i)]['age'])+'\n\t\t    Rating: '+str(db[str(i)]['rating'])+'\n\t\t    Status: '+db[str(i)]['status_messages']
+        i=i+1
+    print '\n'
 
 def select_status():
     global current_user
@@ -138,6 +149,7 @@ def start_chat():
 
 print ("Hello, let's get started.")
 #db.clear()   #to clear the shelve file(not included in program)
+#db.close()
 #del db
 
 while 1<2:
@@ -150,10 +162,11 @@ while 1<2:
 
     elif existing_user=='2':
         signup()
+        db = shelve.open('database.shlf')
+        start_chat()
 
     elif existing_user=='3':
-        x=disp_user_class()
-        x.disp_users()
+        disp_users()
 
     elif existing_user=='4':
         messages['chats'][:] = []
