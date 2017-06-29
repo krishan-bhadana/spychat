@@ -93,10 +93,10 @@ def chat_history(current_user):
     while i < ms.__len__():
         if str(ms[str(i)]['to']) == str(current_user):
             if str(ms[str(i)]['from']) == str(choice):
-                print '\t\t\t'+colored(ms[str(i)]['message'],"blue")
+                print '\t\t\t'+colored(colored(ms[str(i)]['time'],"green"))+colored(ms[str(i)]['message'],"blue")
         elif str(ms[str(i)]['from']) == str(current_user):
             if str(ms[str(i)]['to']) == str(choice):
-                print '\t\t\t\t\t\t'+colored(ms[str(i)]['message'],"red")
+                print '\t\t\t\t\t\t'+colored(colored(ms[str(i)]['time'],"green"))+colored(ms[str(i)]['message'],"red")
         i = i + 1
 
 
@@ -104,7 +104,7 @@ def read_message(current_user):
     i=0
     while i<ms.__len__():
         if str(ms[str(i)]['to'])==str(current_user):
-            print 'Message from ('+colored(db[str(ms[str(i)]['from'])]['username'],"red")+'): '+colored(ms[str(i)]['message'],"blue")+'\t'+colored(colored(ms[str(i)]['time'],"blue"))
+            print 'Message from ('+colored(db[str(ms[str(i)]['from'])]['username'],"red")+'): '+colored(ms[str(i)]['message'],"blue")+'\t\t\t'+colored(colored(ms[str(i)]['time'],"green"))
         i=i+1
 
 
