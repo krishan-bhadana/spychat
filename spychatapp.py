@@ -63,6 +63,7 @@ def signup():
         flag=1
         db.close()
 
+
 def disp_users():
     i=0
     while i<db.__len__():
@@ -70,6 +71,7 @@ def disp_users():
         print '\n\t\t('+str(n)+') Usrname: '+db[str(i)]['username']+'\n\t\t    Age: '+str(db[str(i)]['age'])+'\n\t\t    Rating: '+str(db[str(i)]['rating'])+'\n\t\t    Status: '+db[str(i)]['status_messages']
         i=i+1
     print '\n'
+
 
 def select_friend():
 
@@ -80,6 +82,7 @@ def select_friend():
         i=i+1
     send_to = raw_input('Select the user you want to send message from above: ')
     return int(send_to)-1
+
 
 def chat_history(current_user):
 
@@ -96,12 +99,14 @@ def chat_history(current_user):
                 print '\t\t\t\t\t\t'+colored(ms[str(i)]['message'],"red")
         i = i + 1
 
+
 def read_message(current_user):
     i=0
     while i<ms.__len__():
         if str(ms[str(i)]['to'])==str(current_user):
             print 'Message from ('+db[str(ms[str(i)]['from'])]['username']+'): '+ms[str(i)]['message']
         i=i+1
+
 
 def send_message(current_user):
     send_to=select_friend()
@@ -112,6 +117,7 @@ def send_message(current_user):
         text = raw_input("Message: ")
         ms[str(ms.__len__())] = {'message': text, 'from': current_user, 'to': send_to}
         choice = raw_input('Message sent, Send again? (Y/N)')
+
 
 def start_chat(current_user):
 
