@@ -104,18 +104,20 @@ def read_message(current_user):
     i=0
     while i<ms.__len__():
         if str(ms[str(i)]['to'])==str(current_user):
-            print 'Message from ('+colored(db[str(ms[str(i)]['from'])]['username'],"red")+'): '+colored(ms[str(i)]['message'],"blue")
+            print 'Message from ('+colored(db[str(ms[str(i)]['from'])]['username'],"red")+'): '+colored(ms[str(i)]['message'],"blue")+'\t'+colored(colored(ms[str(i)]['time'],"blue"))
         i=i+1
 
 
 def send_message(current_user):
     send_to=select_friend()
     text = raw_input("Message: ")
-    ms[str(ms.__len__())]={'message':text,'from':current_user,'to':send_to}
+    var = datetime.now()
+    ms[str(ms.__len__())]={'message':text,'from':current_user,'to':send_to,'time':var}
     choice=raw_input('Message sent, Send again? (Y/N)')
     while choice.upper()=='Y':
         text = raw_input("Message: ")
-        ms[str(ms.__len__())] = {'message': text, 'from': current_user, 'to': send_to}
+        var=datetime.now()
+        ms[str(ms.__len__())] = {'message': text, 'from': current_user, 'to': send_to,'time':var}
         choice = raw_input('Message sent, Send again? (Y/N)')
 
 
@@ -159,6 +161,6 @@ while 1<2:
 
     elif existing_user=='4':
         db.close()
-        #ms.clear()
+        ms.clear()
         ms.close()
         break
