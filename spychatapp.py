@@ -1,9 +1,10 @@
 import shelve
-
+from termcolor import colored
 from datetime import datetime
 
 db=shelve.open('database.shlf')
 ms=shelve.open('chat.shlf')
+
 
 def login():
 
@@ -28,6 +29,7 @@ def login():
             print 'Try again'
             return 99
 
+
 def signup():
 
     age = raw_input('Enter your age:  ')
@@ -39,12 +41,12 @@ def signup():
         print 'Your age is not appropriate for being a spy'
         return
 
-    flag=0                                                       #flag sets when the account is succesfully created and stops the loop for re-entering a username
+    flag=0                                                       # flag sets when the account is succesfully created and stops the loop for re-entering a username
 
     while(flag==0):
         temp=None
         username=raw_input('Select a username: ')
-        i = 0                                                       #to search the shelve with index from 0 to number of users
+        i = 0                                                       # to search the shelve with index from 0 to number of users
         while i<db.__len__():
             temp=db[str(i)]['username']
             if temp==username:
@@ -83,14 +85,15 @@ def chat_history(current_user):
 
     disp_users()
     choice=raw_input('Open chat history of?')
+    choice=int(choice)-1
     i = 0
     while i < ms.__len__():
         if str(ms[str(i)]['to']) == str(current_user):
             if str(ms[str(i)]['from']) == str(choice):
-                print ms[str(i)]['message']
+                print '\t\t\t'+colored(ms[str(i)]['message'],"blue")
         elif str(ms[str(i)]['from']) == str(current_user):
             if str(ms[str(i)]['to']) == str(choice):
-                print '\t\t\t'+ms[str(i)]['message']
+                print '\t\t\t\t\t\t'+colored(ms[str(i)]['message'],"red")
         i = i + 1
 
 def read_message(current_user):
