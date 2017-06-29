@@ -93,10 +93,10 @@ def chat_history(current_user):
     while i < ms.__len__():
         if str(ms[str(i)]['to']) == str(current_user):
             if str(ms[str(i)]['from']) == str(choice):
-                print '\t\t\t'+colored(colored(ms[str(i)]['time'],"green"))+colored(ms[str(i)]['message'],"blue")
+                print '\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+colored(ms[str(i)]['message'],"blue")
         elif str(ms[str(i)]['from']) == str(current_user):
             if str(ms[str(i)]['to']) == str(choice):
-                print '\t\t\t\t\t\t'+colored(colored(ms[str(i)]['time'],"green"))+colored(ms[str(i)]['message'],"red")
+                print '\t\t\t\t\t\t\t\t\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+colored(ms[str(i)]['message'],"red")
         i = i + 1
 
 
