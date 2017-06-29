@@ -79,7 +79,21 @@ def select_friend():
     send_to = raw_input('Select the user you want to send message from above: ')
     return int(send_to)-1
 
-def read_message():
+def chat_history(current_user):
+
+    disp_users()
+    choice=raw_input('Open chat history of?')
+    i = 0
+    while i < ms.__len__():
+        if str(ms[str(i)]['to']) == str(current_user):
+            if str(ms[str(i)]['from']) == str(choice):
+                print ms[str(i)]['message']
+        elif str(ms[str(i)]['from']) == str(current_user):
+            if str(ms[str(i)]['to']) == str(choice):
+                print '\t\t\t'+ms[str(i)]['message']
+        i = i + 1
+
+def read_message(current_user):
     i=0
     while i<ms.__len__():
         if str(ms[str(i)]['to'])==str(current_user):
@@ -102,13 +116,15 @@ def start_chat(current_user):
 
     while showmenu==True:
 
-        menu_choices = "\nWhat do you want to do?  \n 1. Send a secret message \n 2. Inbox  \n 3. Logout \n"
+        menu_choices = "\nWhat do you want to do?  \n 1. Send a secret message \n 2. Inbox  \n 3. Chat history\n 4. Logout \n"
         menu_choice = raw_input(menu_choices)
         menu_choice = int(menu_choice)
         if menu_choice == 1:
             send_message(current_user)
         elif menu_choice == 2:
-            read_message()
+            read_message(current_user)
+        elif menu_choice==3:
+            chat_history(current_user)
         else:
             showmenu = False
 
