@@ -5,6 +5,14 @@ from datetime import datetime
 db=shelve.open('database.shlf')
 ms=shelve.open('chat.shlf')
 
+short_forms=[{'short':'brb','full':'be right back'},
+             {'short':'ty','full':'thankyou'},
+             {'short':'gtg','full':'got to go'},
+             {'short':'rn','full':'right now'},
+             {'short':'af','full':'as fuck'},
+             {'short':'wtf','full':'what the fuck'},
+             {'short':'wyd','full':'what you doing'}]
+
 
 def login():
 
@@ -93,10 +101,16 @@ def chat_history(current_user):
     while i < ms.__len__():
         if str(ms[str(i)]['to']) == str(current_user):
             if str(ms[str(i)]['from']) == str(choice):
-                print '\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+colored(ms[str(i)]['message'],"blue")
+                if len(ms[str(i)]['message'])==0:
+                    print '"It is a empty message"' + colored(colored(ms[str(i)]['time'], "green"))
+                else:
+                    print '\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+colored(ms[str(i)]['message'],"blue")
         elif str(ms[str(i)]['from']) == str(current_user):
             if str(ms[str(i)]['to']) == str(choice):
-                print '\t\t\t\t\t\t\t\t\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+colored(ms[str(i)]['message'],"red")
+                if len(ms[str(i)]['message'])==0:
+                    print '"It is a empty message"' + colored(colored(ms[str(i)]['time'], "green"))
+                else:
+                    print '\t\t\t\t\t\t\t\t\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+colored(ms[str(i)]['message'],"red")
         i = i + 1
 
 
@@ -104,7 +118,10 @@ def read_message(current_user):
     i=0
     while i<ms.__len__():
         if str(ms[str(i)]['to'])==str(current_user):
-            print 'Message from ('+colored(db[str(ms[str(i)]['from'])]['username'],"red")+'): '+colored(ms[str(i)]['message'],"blue")+'\t\t\t'+colored(colored(ms[str(i)]['time'],"green"))
+            if len(ms[str(i)]['message'])==0:
+                print 'Message from ('+colored(db[str(ms[str(i)]['from'])]['username'],"red")+'): '+colored(colored(ms[str(i)]['time'],"green"))+'\t'+colored('"It is a empty message"','blue')
+            else:
+                print 'Message from ('+colored(db[str(ms[str(i)]['from'])]['username'],"red")+'): '+colored(colored(ms[str(i)]['time'],"green"))+'\t'+colored(ms[str(i)]['message'],"blue")
         i=i+1
 
 
