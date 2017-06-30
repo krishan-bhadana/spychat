@@ -1,6 +1,6 @@
 # spychat
 
-The program allow its users to communicate with each other secretly using cryptography technique
+The program allow its users to communicate with each other secretly using encryption technique
 
 this is a account based app where user has to login to their respective account to send an read messages
 
