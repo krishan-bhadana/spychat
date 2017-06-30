@@ -102,14 +102,13 @@ def chat_history(current_user):
         if str(ms[str(i)]['to']) == str(current_user):
             if str(ms[str(i)]['from']) == str(choice):
                 if len(ms[str(i)]['message'])==0:
-                    print '"It is a empty message"' + colored(colored(ms[str(i)]['time'], "green"))
+                    print '\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+'"It is a empty message"'
                 else:
                     print '\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+colored(ms[str(i)]['message'],"blue")
         elif str(ms[str(i)]['from']) == str(current_user):
             if str(ms[str(i)]['to']) == str(choice):
                 if len(ms[str(i)]['message'])==0:
-                    print '"It is a empty message"' + colored(colored(ms[str(i)]['time'], "green"))
-                else:
+                    print '\t\t\t\t\t\t\t\t\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+'"It is a empty message"'
                     print '\t\t\t\t\t\t\t\t\t\t\t('+colored(colored(ms[str(i)]['time'],"green"))+') '+colored(ms[str(i)]['message'],"red")
         i = i + 1
 
