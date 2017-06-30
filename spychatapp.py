@@ -127,6 +127,10 @@ def read_message(current_user):
 def send_message(current_user):
     send_to=select_friend()
     text = raw_input("Message: ")
+    i=0
+    while i<len(short_forms):
+        text=text.replace(short_forms[i]['short'],short_forms[i]['full'])
+        i=i+1
     var = datetime.now()
     ms[str(ms.__len__())]={'message':text,'from':current_user,'to':send_to,'time':var}
     choice=raw_input('Message sent, Send again? (Y/N)')
